@@ -91,7 +91,7 @@ class TimeCalculator extends Component{
     const startDateFmt = dateFormat(this.state.startDate, "longDate");
     const startTimeFmt = dateFormat(this.state.startDate, "shortTime");
     const endDateFmt = dateFormat(this.state.endDate, "longDate");
-    const endTimeFmt = dateFormat(this.state.startDate, "shortTime");
+    const endTimeFmt = dateFormat(this.state.endDate, "shortTime");
 
     const diff = this.state.endDate.getTime() - this.state.startDate.getTime();
 
