@@ -87,7 +87,7 @@ class TimeCalculator extends Component{
   }
 
   render() {
-    // TODO: implement more internationally accessible formatting
+    // TODO: implement moment.js
     const startDateFmt = dateFormat(this.state.startDate, "longDate");
     const startTimeFmt = dateFormat(this.state.startDate, "shortTime");
     const endDateFmt = dateFormat(this.state.endDate, "longDate");
