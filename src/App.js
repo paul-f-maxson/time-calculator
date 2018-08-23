@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 // import logo from './logo.svg';
 import './App.css';
 import dateFormat from 'dateformat';
+const moment = require('moment');
 
 function Input(props) {
   return (
@@ -45,9 +46,7 @@ function Output(props) {
     <div className="output">
       <h1 className="dateRange">
         From {props.startDate}{" "}
-        at {props.startTime}{" "}
-        to {props.endDate}{" "}
-        at {props.endTime}:
+        to {props.endDate}:
         <ul className="amounts">
           {amounts}
         </ul>
@@ -60,18 +59,9 @@ class TimeCalculator extends Component{
   constructor(props) {
     super(props);
     this.state = {
-      startDate: new Date(),
-      endDate: new Date(),
+      startDate: moment(),
+      endDate: moment(),
     };
-
-    this.millis =  {
-        year : 3.154*10**10, // Milliseconds in a year
-        month : 2.628*10**9, // Milliseconds in a month
-        day : 8.64*10**7, // Milliseconds in a day
-        hour : 3.60*10**6, // Milliseconds in an hour
-        minute : 6.00*10**4, // Milliseconds in a minute
-        second : 1000, // Milliseconds in a second
-    }
   }
 
   handleChange(event) {
@@ -79,26 +69,25 @@ class TimeCalculator extends Component{
     const value = target.value;
     const name = target.name
 
-    // TODO: convert from yyyy-mm-ddThh:mm
     console.log(value);
     this.setState({
-      [name]: new Date(value),
+      [name]: moment(value),
     });
   }
 
   render() {
-    // TODO: implement moment.js
-    const startDateFmt = dateFormat(this.state.startDate, "longDate");
-    const startTimeFmt = dateFormat(this.state.startDate, "shortTime");
-    const endDateFmt = dateFormat(this.state.endDate, "longDate");
-    const endTimeFmt = dateFormat(this.state.endDate, "shortTime");
-
-    const diff = this.state.endDate.getTime() - this.state.startDate.getTime();
+    const momentFormatString = "dddd, MMMM Do YYYY [at] h:mm a";
+    const startDateFmt = this.state.startDate.format(momentFormatString);
+    const endDateFmt = this.state.endDate.format(momentFormatString);
 
     let totals = {};
 
-    for (var increment in this.millis) {
-      totals[`${increment}s`] = (diff / this.millis[increment]).toFixed(2);
+    for (let increment of ["seconds","minutes","hours","days","months","years"]) {
+      totals[`${increment}`] = this.state.endDate.diff(
+        this.state.startDate,
+        increment,
+        true
+      ).toFixed(2);
     }
 
     return (
@@ -110,9 +99,7 @@ class TimeCalculator extends Component{
         <Output
           // TODO: be more concise, use an object
           startDate={startDateFmt}
-          startTime={startTimeFmt}
           endDate={endDateFmt}
-          endTime={endTimeFmt}
           totals={totals}
         />
       </div>
