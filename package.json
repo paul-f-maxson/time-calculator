@@ -17,5 +17,4 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "homepage": "https://portfolio-pfmaxson.herokuapp.com/pieces/open/time_calculator"
 }
