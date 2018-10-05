@@ -1,14 +1,24 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 
-import { Input, Output } from "./Presentational.js";
+import Input from "./Input.js";
+import Output from "./Output.js";
 
 class TimeCalculator extends Component{
   constructor(props) {
     super(props);
+
+    // Create initial start and end Dates
+    const initStartDate = new Date();
+    const initEndDate = new Date();
+    initStartDate.setSeconds(0);
+    initEndDate.setSeconds(0);
+    initStartDate.setMilliseconds(0);
+    initEndDate.setMilliseconds(0);
+
     this.state = {
-      startDate: new Date(),
-      endDate: new Date(),
+      startDate: initStartDate,
+      endDate: initEndDate,
     };
 
     this.handleChangeStartDate = this.handleChangeStartDate.bind(this);
@@ -33,7 +43,7 @@ class TimeCalculator extends Component{
     const startDate = moment(this.state.startDate);
     const endDate = moment(this.state.endDate);
 
-    // Format moments for output
+    // Format moments for output // TODO: move to Output
     const momentFormatStringOutput = "dddd, MMMM Do YYYY [at] h:mm a";
     const startDateFmtOutput = startDate.format(momentFormatStringOutput);
     const endDateFmtOutput = endDate.format(momentFormatStringOutput);
