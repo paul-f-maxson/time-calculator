@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import moment from 'moment';
 
 import Input from "./Input.js";
 import Output from "./Output.js";
@@ -39,25 +38,6 @@ class TimeCalculator extends Component{
 
   render() {
 
-    // Convert Dates to moments
-    const startDate = moment(this.state.startDate);
-    const endDate = moment(this.state.endDate);
-
-    // Format moments for output // TODO: move to Output
-    const momentFormatStringOutput = "dddd, MMMM Do YYYY [at] h:mm a";
-    const startDateFmtOutput = startDate.format(momentFormatStringOutput);
-    const endDateFmtOutput = endDate.format(momentFormatStringOutput);
-
-    // Calculate differences
-    let totals = {};
-    for (let increment of ["seconds","minutes","hours","days","months","years"]) {
-      totals[`${increment}`] = endDate.diff(
-        startDate,
-        increment,
-        true // return floating point number
-      ).toFixed(2);
-    }
-
     return (
       <div className="timeCalculator">
         <Input
@@ -67,12 +47,12 @@ class TimeCalculator extends Component{
           onChangeEnd={this.handleChangeEndDate}
         />
         <Output
-          startDate={startDateFmtOutput}
-          endDate={endDateFmtOutput}
-          totals={totals}
+          startDate={this.state.startDate}
+          endDate={this.state.endDate}
         />
       </div>
     );
+
   }
 }
 
