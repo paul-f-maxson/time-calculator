@@ -1,8 +1,9 @@
 import React from 'react';
-
+import DateTimePicker from "react-datetime-picker";
 import './App.css';
 
 export function Input(props) {
+
   return (
     <div className="input">
       <h2>
@@ -10,19 +11,20 @@ export function Input(props) {
           <legend>Enter start and end dates</legend>
           <form>
             <div id="startDateInput">
-              <label htmlFor="startDate">Start date</label>
-              <input type="date" id="startDate"
-                name="startDate" value={props.startDate}
-                min="0000-00-00" max="9999-12-31"
-                onChange={props.onChange}
+              <label htmlFor="startDate">Start date: </label>
+              <DateTimePicker
+                id="startDate"
+                value={props.startDate}
+                onChange={props.onChangeStart}
               />
             </div>
-            <div className="endDateInput">
-              <label htmlFor="endDate">End date/time:</label>
-              <input type="datetime-local" id="endDate"
-                name="endDate" value={props.endDate}
-                min="0000-00-00T00:00" max="9999-12-31T24:59"
-                onChange={props.onChange}
+            <hr />
+            <div id="startDateInput">
+              <label htmlFor="endDate">End date: </label>
+              <DateTimePicker
+                id="endDate"
+                value={props.endDate}
+                onChange={props.onChangeEnd}
               />
             </div>
           </form>

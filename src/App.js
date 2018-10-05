@@ -7,33 +7,42 @@ class TimeCalculator extends Component{
   constructor(props) {
     super(props);
     this.state = {
-      startDate: moment(),
-      endDate: moment(),
+      startDate: new Date(),
+      endDate: new Date(),
     };
+
+    this.handleChangeStartDate = this.handleChangeStartDate.bind(this);
+    this.handleChangeEndDate = this.handleChangeEndDate.bind(this);
   }
 
-  handleChange(event) {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-
+  handleChangeStartDate(date) {
     this.setState({
-      [name]: moment(value),
+      startDate: date,
+    });
+  }
+
+  handleChangeEndDate(date) {
+    this.setState({
+      endDate: date,
     });
   }
 
   render() {
-    // TODO: Move these calculations to Output
 
-    const momentFormatString = "dddd, MMMM Do YYYY [at] h:mm a";
-    const startDateFmt = this.state.startDate.format(momentFormatString);
-    const endDateFmt = this.state.endDate.format(momentFormatString);
+    // Convert Dates to moments
+    const startDate = moment(this.state.startDate);
+    const endDate = moment(this.state.endDate);
 
+    // Format moments for output
+    const momentFormatStringOutput = "dddd, MMMM Do YYYY [at] h:mm a";
+    const startDateFmtOutput = startDate.format(momentFormatStringOutput);
+    const endDateFmtOutput = endDate.format(momentFormatStringOutput);
+
+    // Calculate differences
     let totals = {};
-
     for (let increment of ["seconds","minutes","hours","days","months","years"]) {
-      totals[`${increment}`] = this.state.endDate.diff(
-        this.state.startDate,
+      totals[`${increment}`] = endDate.diff(
+        startDate,
         increment,
         true // return floating point number
       ).toFixed(2);
@@ -42,11 +51,14 @@ class TimeCalculator extends Component{
     return (
       <div className="timeCalculator">
         <Input
-          onChange={(e) => this.handleChange(e)}
+          startDate={this.state.startDate}
+          endDate={this.state.endDate}
+          onChangeStart={this.handleChangeStartDate}
+          onChangeEnd={this.handleChangeEndDate}
         />
         <Output
-          startDate={startDateFmt}
-          endDate={endDateFmt}
+          startDate={startDateFmtOutput}
+          endDate={endDateFmtOutput}
           totals={totals}
         />
       </div>
